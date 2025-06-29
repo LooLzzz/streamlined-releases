@@ -85,6 +85,12 @@ class GithubEnv(BaseSettings):
         )
 
     @property
+    def pull_request_number(self) -> Optional[int]:
+        pr_payload: dict = self.event_payload.get('pull_request', {})
+        number = pr_payload.get('number', None)
+        return int(number) if number is not None else None
+
+    @property
     def pull_request_merged(self) -> Optional[bool]:
         pr_payload: dict = self.event_payload.get('pull_request', {})
         return pr_payload.get('merged', None)

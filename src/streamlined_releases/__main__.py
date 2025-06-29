@@ -1,3 +1,4 @@
+import re
 from logging import getLogger
 
 from .events import on_pull_request_merged, on_push
@@ -39,8 +40,19 @@ def main():
 
         case 'pull_request' if all((app_settings.github.event_action == 'closed',
                                     app_settings.github.pull_request_merged is True)):
-            # means the PR was merged to the ref branch
-            on_pull_request_merged()
+            head_ref: str = app_settings.github.head_ref
+            rc_branch_template = re.compile(r'rc/(?P<version>.+)-(?P<ref>.+)$')
+
+            if m := rc_branch_template.match(head_ref):
+                # means the PR was merged to the ref branch
+                version = m.group('version')
+                on_pull_request_merged(version)
+
+            else:
+                logger.info(
+                    "Skipping pull request event: head ref '%s' does not match the expected rc branch pattern",
+                    head_ref,
+                )
 
         case _:
             logger.info(
