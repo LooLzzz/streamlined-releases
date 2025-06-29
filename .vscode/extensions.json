@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "ms-python.autopep8",   // pip install autopep8
+    "ms-python.isort",      // pip install isort
+    "emeraldwalk.runonsave" // pip install sort-all
+  ]
+}
