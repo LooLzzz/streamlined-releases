@@ -2,7 +2,7 @@ name: Streamlined Releases Action
 description: |
   A GitHub Action to streamline releases by automating the process of updating version numbers
   and generating changelogs.
-author: Noam Levi
+author: LooLzzz
 
 inputs:
   myInput:

@@ -7,6 +7,7 @@
             "request": "launch",
             "module": "src.streamlined_releases",
             "envFile": "${workspaceFolder}/.env",
+            "justMyCode": true,
         }
     ]
 }

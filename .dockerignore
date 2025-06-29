@@ -1,0 +1,13 @@
+action.yaml
+action.yml
+
+.vscode/
+.idea/
+.git/
+.gitignore
+
+.ignored/
+data/
+
+**/__pycache__
+.env
