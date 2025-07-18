@@ -1,0 +1,9 @@
+services:
+  streamlined-releases:
+    build:
+      context: .
+      platforms:
+        - linux/amd64
+        - linux/arm64
+      tags:
+        - ghcr.io/loolzzz/streamlined-releases:latest
