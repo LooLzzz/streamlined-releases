@@ -87,7 +87,7 @@ def on_push():
 
         # move branch head to the latest commit on the base branch
         repo = git.Repo(app_settings.github.workspace)
-        repo.git.reset('--hard', rc_pr.head.sha)
+        repo.git.reset('--hard', rc_pr.base.sha)
 
         # add bumped version to the branch
         bump_version(
