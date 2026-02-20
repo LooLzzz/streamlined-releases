@@ -85,9 +85,10 @@ def on_push():
         logger.info("Pull request (#%s) already exists for branch '%s'", rc_pr.number, rc_branch_name)
         logger.info('Updating pull request (#%s) with new changes', rc_pr.number)
 
-        # move branch head to the latest commit on the base branch
+        # move RC branch head to the latest commit on the base branch
         repo = git.Repo(app_settings.github.workspace)
-        repo.git.reset('--hard', rc_pr.base.sha)
+        repo.git.checkout(rc_branch_name)
+        repo.git.reset('--hard', app_settings.github.sha)
 
         # add bumped version to the branch
         bump_version(
