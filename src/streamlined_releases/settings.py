@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Literal, NamedTuple, Optional
 
 from github import Auth, Github
-from pydantic import Field, computed_field
+from pydantic import Field, computed_field, model_validator
 from pydantic_settings import BaseSettings
 
 __all__ = [
@@ -22,6 +22,8 @@ class Inputs(BaseSettings):
     model_config = {'env_prefix': 'INPUT_'}
 
     my_number: Optional[int] = None
+    git_username: Optional[str] = None
+    git_email: Optional[str] = None
 
 
 class GithubEnv(BaseSettings):
@@ -114,7 +116,7 @@ class Settings(BaseSettings):
 
     runner_debug: bool = False
     changelog_filepath: Path = 'CHANGELOG.md'
-    bump_commit_actor: ActorTuple = ('Streamlined Releases', 'streamlined@releas.es')
+    bump_commit_actor: ActorTuple = ('github-actions[bot]', 'github-actions[bot]@users.noreply.github.com')
 
     main_branch: str = 'main'
     staging_branch: str = 'stg'
@@ -122,6 +124,13 @@ class Settings(BaseSettings):
 
     github: GithubEnv = Field(default_factory=GithubEnv)
     inputs: Inputs = Field(default_factory=Inputs)
+
+    @model_validator(mode='after')
+    def apply_input_overrides(self):
+        name = self.inputs.git_username or self.bump_commit_actor.name
+        email = self.inputs.git_email or self.bump_commit_actor.email
+        self.bump_commit_actor = ActorTuple(name, email)
+        return self
 
     @property
     def release_branches(self):
