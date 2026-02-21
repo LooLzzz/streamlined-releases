@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.3] - 2026-02-21
+
+Full Changelog: [`v0.0.2...v0.0.3`](https://github.com/LooLzzz/streamlined-releases/compare/v0.0.2...v0.0.3)
+
+### 🚀 Features
+
+- Add additional inputs for bump commit configuration and update commit message handling by **@LooLzzz** (5251714)
+
+
+
 ## [0.0.2] - 2026-02-20
 
 Full Changelog: [`v0.0.1...v0.0.2`](https://github.com/LooLzzz/streamlined-releases/compare/v0.0.1...v0.0.2)

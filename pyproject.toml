@@ -1,6 +1,6 @@
 [project]
 name = "streamlined-releases"
-version = "0.0.2"
+version = "0.0.3"
 description = "Streamlined Releases for Python Projects"
 readme = "README.md"
 requires-python = ">=3.12"
