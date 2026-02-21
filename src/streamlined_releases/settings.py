@@ -21,9 +21,19 @@ class ActorTuple(NamedTuple):
 class Inputs(BaseSettings):
     model_config = {'env_prefix': 'INPUT_'}
 
-    my_number: Optional[int] = None
     git_username: Optional[str] = None
     git_email: Optional[str] = None
+    bump_commit_message: Optional[str] = None
+    changelog_filepath: Optional[Path] = None
+    main_branch: Optional[str] = None
+    staging_branch: Optional[str] = None
+    dev_branch: Optional[str] = None
+
+    @property
+    def bump_commit_actor(self) -> Optional[ActorTuple]:
+        if self.git_username and self.git_email:
+            return ActorTuple(self.git_username, self.git_email)
+        return None
 
 
 class GithubEnv(BaseSettings):
@@ -117,6 +127,7 @@ class Settings(BaseSettings):
     runner_debug: bool = False
     changelog_filepath: Path = 'CHANGELOG.md'
     bump_commit_actor: ActorTuple = ('github-actions[bot]', 'github-actions[bot]@users.noreply.github.com')
+    bump_commit_message: str = 'chore(release): Bumped version to {version}'
 
     main_branch: str = 'main'
     staging_branch: str = 'stg'
@@ -126,10 +137,21 @@ class Settings(BaseSettings):
     inputs: Inputs = Field(default_factory=Inputs)
 
     @model_validator(mode='after')
-    def apply_input_overrides(self):
-        name = self.inputs.git_username or self.bump_commit_actor.name
-        email = self.inputs.git_email or self.bump_commit_actor.email
-        self.bump_commit_actor = ActorTuple(name, email)
+    def _apply_input_overrides(self):
+        direct_overrides = [
+            'bump_commit_actor',
+            'bump_commit_message',
+            'changelog_filepath',
+            'dev_branch',
+            'main_branch',
+            'staging_branch',
+        ]
+
+        for field in direct_overrides:
+            if field not in self.model_fields_set:
+                if v := getattr(self.inputs, field, None):
+                    setattr(self, field, v)
+
         return self
 
     @property

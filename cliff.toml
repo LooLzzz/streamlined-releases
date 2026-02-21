@@ -26,6 +26,7 @@ body = """
             {{ commit.message | upper_first | trim }}\
             {% if commit.remote.username %} by **@{{ commit.remote.username }}**{%- endif %}\
             {% if commit.remote.pr_number %} in **#{{ commit.remote.pr_number }}**{%- endif %}\
+            {% if not commit.remote.pr_number %} ({{ commit.id | truncate(length=7, end="") }}){%- endif %}\
     {% endfor %}
 {% endfor %}
 {% set new_contributors = github.contributors | filter(attribute="is_first_time", value=true) %}

@@ -13,6 +13,26 @@ inputs:
     description: Git email for the bump commit actor
     required: false
     default: github-actions[bot]@users.noreply.github.com
+  bump_commit_message:
+    description: Template for the bump commit message. Use {version} as a placeholder for the bumped version.
+    required: false
+    default: "chore(release): Bumped version to {version}"
+  changelog_filepath:
+    description: Path to the changelog file.
+    required: false
+    default: CHANGELOG.md
+  main_branch:
+    description: Name of the main release branch.
+    required: false
+    default: main
+  staging_branch:
+    description: Name of the staging release branch.
+    required: false
+    default: stg
+  dev_branch:
+    description: Name of the dev release branch.
+    required: false
+    default: dev
 
 outputs:
   diff_changelog:

@@ -186,7 +186,7 @@ def bump_version(version: str,
 
             actor = git.Actor(app_settings.bump_commit_actor.name, app_settings.bump_commit_actor.email)
             repo.index.commit(
-                message=f'chore(release): Bumped version to {version}',
+                message=app_settings.bump_commit_message.format(version=version),
                 author=actor,
                 committer=actor,
             )

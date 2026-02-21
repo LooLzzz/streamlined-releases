@@ -2,7 +2,7 @@ import re
 from logging import getLogger
 
 from .events import on_pull_request_merged, on_push
-from .services import get_gitcliff_changelog_diff, is_rc_commit, set_git_safe_directory, set_github_action_output
+from .services import is_rc_commit, set_git_safe_directory, set_github_action_output
 from .settings import app_settings
 from .utils import setup_logging
 
